@@ -34,7 +34,7 @@ export class LeadFormComponent {
   showSuccess = false;
   showError = false;
 
-  onSubmit() {
+ onSubmit() {
     console.log('Form Submitted', this.bookingForm.value);
     if (this.bookingForm.invalid) {
       this.bookingForm.markAllAsTouched();
@@ -44,26 +44,30 @@ export class LeadFormComponent {
     this.isLoading = true;
     this.showError = false;
 
-    // DATA MAPPING:
-    // We create a specific object that matches exactly what the Backend needs.
+    // DATA MAPPING
     const payload = {
-        name: this.bookingForm.value.name,        // Maps 'fullName' -> 'name'
+        name: this.bookingForm.value.name,
         phone: this.bookingForm.value.phone,
         email: this.bookingForm.value.email,
-        pickup: this.bookingForm.value.pickupLocation, // Maps 'pickupLocation' -> 'pickup'
+        pickup: this.bookingForm.value.pickupLocation,
         destination: this.bookingForm.value.destination,
-        date: this.bookingForm.value.pickupDate,       // Maps 'pickupDate' -> 'date'
+        date: this.bookingForm.value.pickupDate,
         frequency: this.bookingForm.value.frequency,
         timeFrom: this.bookingForm.value.timeFrom,
         timeTo: this.bookingForm.value.timeTo
     };
 
-    this.http.post('https://carlyft-backend.onrender.com/api/leads', payload)
-      .subscribe({
+    // 👇 YOUR NEW GOOGLE SCRIPT URL 👇
+    const googleUrl = 'https://script.google.com/macros/s/AKfycbxy_lgugyH3zOE9e1uEl16hFfNKAROaofgtoehhQr0pNBQryVu3DX7dlzFN9AsCN273/exec';
+    // ⚠️ IMPORTANT: We must use JSON.stringify and text/plain headers 
+    // to prevent Google from blocking the request (CORS error).
+    this.http.post(googleUrl, JSON.stringify(payload), {
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    }).subscribe({
         next: () => {
           this.isLoading = false;
           this.showSuccess = true;
-          this.bookingForm.reset({ frequency: 'Weekly' }); // Reset but keep default
+          this.bookingForm.reset({ frequency: 'Weekly' });
           setTimeout(() => this.showSuccess = false, 5000);
         },
         error: (err) => {
@@ -72,6 +76,6 @@ export class LeadFormComponent {
           this.showError = true;
           setTimeout(() => this.showError = false, 5000);
         }
-      });
+    });
   }
 }
