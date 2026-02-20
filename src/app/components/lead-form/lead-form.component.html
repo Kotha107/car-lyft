@@ -71,13 +71,13 @@
                         </div>
                     </div>
 
-                    <div class="flex items-start">
+                    <!-- <div class="flex items-start">
                         <input formControlName="terms" type="checkbox" class="mt-1 h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary">
                         <label class="ml-2 block text-gray-700">
                             I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a>
                         </label>
                     </div>
-                    <p *ngIf="bookingForm.get('terms')?.touched && bookingForm.get('terms')?.invalid" class="text-red-500 text-sm">You must agree to terms</p>
+                    <p *ngIf="bookingForm.get('terms')?.touched && bookingForm.get('terms')?.invalid" class="text-red-500 text-sm">You must agree to terms</p> -->
 
                     <button type="submit" [disabled]="isLoading" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-4 rounded-lg shadow-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                         <span *ngIf="!isLoading">Request Booking</span>
